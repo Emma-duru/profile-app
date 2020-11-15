@@ -1,0 +1,117 @@
+<%- include("./partials/header") %>
+
+<h1 class="text-center">SIGN UP</h1>
+<form>
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" class="form-control">        
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username *</label>
+        <input type="text" name="username" class="form-control">        
+        <div class="username error"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" name="age" class="form-control">        
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="text" name="email" class="form-control">        
+        <div class="email error"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea name="bio" class="form-control"></textarea>        
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password *</label>
+        <input type="password" name="password" class="form-control">        
+        <div class="password error"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <input type="password" name="confirmPassword" class="form-control">        
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Sign Up" class="btn btn-primary">
+    </div>
+
+    <small>* These are required fields</small>
+
+    <p>Already have an account? <a href="/login">Log in</a></p>
+</form>
+
+<script>
+    const form = document.querySelector("form");
+    const usernameError = document.querySelector(".username.error");
+    const emailError = document.querySelector(".email.error");
+    const passwordError = document.querySelector(".password.error");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        usernameError.textContent = "";
+        emailError.textContent = "";
+        passwordError.textContent = "";
+
+        const first_name = form.firstName.value;
+        const last_name = form.lastName.value;
+        const username = form.username.value;
+        const age = form.age.value;
+        const email = form.email.value;
+        const bio = form.bio.value;
+        const password = form.password.value;
+        const confirmPassword = form.confirmPassword.value;
+
+        if (password !== confirmPassword) {
+            passwordError.textContent = "The two password fields must match";
+            form.removeEventListener();
+        }
+
+        try {
+            const res = await fetch("/signup", {
+                method: "POST",
+                body: JSON.stringify({
+                    first_name,
+                    last_name,
+                    username,
+                    age,
+                    email,
+                    bio,
+                    password
+                }),
+                headers: { "Content-Type": "application/json" }
+            })
+
+            const data = await res.json();
+
+            if(data.user) {
+                location.assign(`/${data.user.username}/profile`);
+            }
+            if (data.errors) {
+                usernameError.textContent = data.errors.username;
+                emailError.textContent = data.errors.email;
+                passwordError.textContent = data.errors.password;
+            }
+
+
+        } catch(err) {
+            console.log(err)
+        }
+    })
+</script>
+
+<%- include("./partials/footer") %>

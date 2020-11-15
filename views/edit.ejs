@@ -1,0 +1,93 @@
+<%- include("./partials/header") %>
+
+<h1 class="text-center">EDIT PROFILE</h1>
+<form>
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName" class="form-control" value="<%= user.first_name %>">
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" name="lastName" class="form-control" value="<%= user.last_name %>">        
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" name="username" class="form-control" value="<%= user.username %>">        
+        <div class="username error"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" name="age" class="form-control" value="<%= user.age %>">        
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" class="form-control" value="<%= user.email %>">        
+        <div class="email error"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea name="bio" class="form-control"><%= user.bio %></textarea>        
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="EDIT PROFILE" class="btn btn-primary">
+    </div>
+</form>
+
+<script>
+    const form = document.querySelector("form");
+    const usernameError = document.querySelector(".username.error");
+    const emailError = document.querySelector(".email.error");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        usernameError.textContent = "";
+        emailError.textContent = "";
+
+        const first_name = form.firstName.value;
+        const last_name = form.lastName.value;
+        const username = form.username.value;
+        const age = form.age.value;
+        const email = form.email.value;
+        const bio = form.bio.value;
+
+
+        try {
+            const res = await fetch("/<%= user.username %>/profile/edit", {
+                method: "POST",
+                body: JSON.stringify({
+                    first_name,
+                    last_name,
+                    username,
+                    age,
+                    email,
+                    bio,
+                }),
+                headers: { "Content-Type": "application/json" }
+            });
+
+            const data = await res.json();
+
+            if(data.user) {
+                location.assign(`/${data.user.username}/profile`);
+            }
+
+            if (data.errors) {
+                usernameError.textContent = data.errors.username;
+                emailError.textContent = data.errors.email;
+            }
+
+
+        } catch(err) {
+            console.log(err)
+        }
+    })
+</script>
+
+<%- include("./partials/footer") %>
