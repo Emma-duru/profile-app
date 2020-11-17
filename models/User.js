@@ -27,6 +27,15 @@ const userSchema = new mongoose.Schema({
     bio: String
 });
 
+// Get posts
+userSchema.virtual("posts", {
+    ref: "Post",
+    localField: "_id",
+    foreignField: "author"
+});
+
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 // Hash password
 userSchema.pre("save", async function(next) {

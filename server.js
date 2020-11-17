@@ -7,6 +7,7 @@ const { requireAuth, checkUser } = require("./middleware/authMiddleware");
 
 // Import router
 const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 // Set up view engine
 app.set("view engine", "ejs");
@@ -26,6 +27,7 @@ mongoose.connect(process.env.DB_URI,
 // Use routes
 app.use("*", checkUser);
 app.use(userRoutes);
+app.use(postRoutes);
 
 // Start the server
 app.listen(process.env.PORT, (err) => {

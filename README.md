@@ -16,4 +16,4 @@ To clone project, run `git clone https://github.com/Emma-duru/profile-app.git`
 
 In the terminal, run `npm install` to install all the packages from the `package.json` file.
 
-To run project, run `node server.js`
+To run project, run `npm start`
