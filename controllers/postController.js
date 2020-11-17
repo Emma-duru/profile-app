@@ -29,6 +29,7 @@ module.exports.post_create_get = (req, res) => {
 module.exports.post_create_post = async (req, res) => {
     const loggedUser = res.locals.user;
     const { title, body } = req.body;
+    const { username } = req.params;
 
     if (loggedUser.username === username) {
         try {

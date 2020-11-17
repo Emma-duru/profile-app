@@ -146,11 +146,11 @@ module.exports.profile_edit_post = async (req, res) => {
         bio,
     } = req.body;
     const loggedUser = res.locals.user;
-    const { user } = req.params;
+    const userName = req.params.username;
 
-    if (loggedUser.username === user) {
+    if (loggedUser.username === userName) {
         try {
-            const user = await User.findOneAndUpdate({ username: username }, {
+            const user = await User.findOneAndUpdate({ username: loggedUser.username }, {
                 first_name,
                 last_name,
                 username,
@@ -161,12 +161,13 @@ module.exports.profile_edit_post = async (req, res) => {
             res.json({ user });
 
         } catch (err) {
-            const errors = handleError(err);
+            const errors = handleErrors(err);
             res.json({ errors });
         }
     } else {
         res.send("You are not allowed to access this route");
     }
+    
 
         
 }
