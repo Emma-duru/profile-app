@@ -1,0 +1,54 @@
+<%- include("./partials/header") %> 
+
+<h1 class="text-center">EDIT POST</h1>
+
+<form>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" class="form-control" value="<%= post.title %>">
+        <div class="title error"></div>
+    </div>
+    
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea name="body" class="form-control"><%= post.body %></textarea>
+        <div class="body error"></div>
+    </div>
+    
+    <div class="form-group">
+        <input type="submit" value="EDIT POST" class="btn btn-primary">
+        <a href="/<%= loggedUser.username %>/posts" class="btn btn-secondary">CANCEL</a>
+    </div>
+</form>
+
+<script>
+    const form = document.querySelector("form");
+    const titleError = document.querySelector(".title.error");
+    const bodyError = document.querySelector(".body.error");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        titleError.textContent = "";
+        bodyError.textContent = "";
+
+        const title = form.title.value;
+        const body = form.body.value;
+
+        try {
+            const res = await fetch("/<%= loggedUser.username %>/posts/<%= post.slug %>/edit", {
+                method: "POST",
+                body: JSON.stringify({ title, body }),
+                headers: { "Content-Type": "application/json" }
+            })
+            const data = await res.json();
+            if(data.post) {
+                location.assign("/<%= loggedUser.username %>/posts/<%= post.slug %>");
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    })
+</script>
+
+<%- include("./partials/footer") %>

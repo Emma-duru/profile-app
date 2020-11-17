@@ -9,4 +9,8 @@
 <p><strong>Email: </strong><%= user.email %></p>
 <p><strong>Bio: </strong><%= user.bio %></p>
 
+<% if (user.username === loggedUser.username) { %>
+    <a href="/<%= loggedUser.username %>/profile/edit" class="btn btn-primary">EDIT PROFILE</a>
+<% } %> 
+
 <%- include("./partials/footer") %>
