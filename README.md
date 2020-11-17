@@ -10,6 +10,8 @@ A simple profile app, implementing JSON Web Token authentication, where users ca
 * [jsonwebtoken](https://jwt.io/)
 * [mongoose](https://mongoosejs.com/)
 * [validator](https://validatejs.org/)
+* [slugify](https://www.npmjs.com/package/slugify)
+* [luxon](https://www.npmjs.com/package/luxon)
 
 ## How to Run
 To clone project, run `git clone https://github.com/Emma-duru/profile-app.git`  
