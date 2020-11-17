@@ -19,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "luxon": "^1.25.0",
     "mongoose": "^5.10.14",
+    "slugify": "^1.4.6",
     "validator": "^13.1.17"
   }
 }

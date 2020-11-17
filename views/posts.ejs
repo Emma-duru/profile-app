@@ -1,0 +1,27 @@
+<%- include("./partials/header") %> 
+
+<h1 class="text-center"><%= username.toUpperCase() %>'S POSTS</h1>
+
+<% posts.forEach(post => { %> 
+    <!-- Card -->
+    <div class="card my-4">
+
+        <!-- Card content -->
+        <div class="card-body">
+
+            <!-- Title -->
+            <h4 class="card-title"><a><%= post.title %></a></h4>
+            <small>By <strong><%= username %></strong></small>
+            <small class="text-muted"> on <strong><%= post.date_formatted %></strong></small>
+            <!-- Text -->
+            <p class="card-text"><%= post.body %></p>
+            
+
+        </div>
+
+    </div>
+    <!-- Card -->
+<% }) %> 
+
+
+<%- include("./partials/footer") %> 

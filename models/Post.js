@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { DateTime } = require("luxon");
+const slugify = require("slugify");
 
 const postSchema = new mongoose.Schema({
     title: {
@@ -15,14 +16,26 @@ const postSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    slug: {
+        type: String,
+        required: true,
+        unique: true
+    },
     date: {
         type: Date,
         default: Date.now
     }
 });
 
-postSchema.virtual("date-formatted").get(function(){
+postSchema.virtual("date_formatted").get(function(){
     return DateTime.fromJSDate(this.date).toLocaleString(DateTime.DATE_MED);
+});
+
+postSchema.pre("validate", function(){
+    this.slug = slugify(this.title + this.date, {
+        strict: true,
+        lowercase: true
+    });
 })
 
 module.exports = mongoose.model("Post", postSchema);
