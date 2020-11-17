@@ -11,6 +11,7 @@
 
 <% if (user.username === loggedUser.username) { %>
     <a href="/<%= loggedUser.username %>/profile/edit" class="btn btn-primary">EDIT PROFILE</a>
+    <a href="/<%= loggedUser.username %>/posts/create" class="btn btn-primary">ADD POST</a>
 <% } %> 
 
 <%- include("./partials/footer") %>
