@@ -130,7 +130,7 @@ module.exports.profile_edit_get = async (req, res) => {
             console.log(err);
         }
     } else {
-        res.send("You are not allowed to edit this profile");
+        res.send("You are not allowed to access this route");
     }
     
 }
@@ -145,22 +145,30 @@ module.exports.profile_edit_post = async (req, res) => {
         email,
         bio,
     } = req.body;
+    const loggedUser = res.locals.user;
+    const { user } = req.params;
 
-    try {
-        const user = await User.findOneAndUpdate({ username: username }, {
-            first_name,
-            last_name,
-            username,
-            age,
-            email,
-            bio, 
-        });
-        res.json({ user });
+    if (loggedUser.username === user) {
+        try {
+            const user = await User.findOneAndUpdate({ username: username }, {
+                first_name,
+                last_name,
+                username,
+                age,
+                email,
+                bio, 
+            });
+            res.json({ user });
 
-    } catch (err) {
-        const errors = handleError(err);
-        res.json({ errors });
+        } catch (err) {
+            const errors = handleError(err);
+            res.json({ errors });
+        }
+    } else {
+        res.send("You are not allowed to access this route");
     }
+
+        
 }
 
 
