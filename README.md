@@ -1,5 +1,5 @@
 # PROFILE APP
-A simple profile app, implementing JSON Web Token authentication, where users can create and edit their profiles. They can also see other user's profiles.
+A simple profile app, implementing JSON Web Token authentication, where users can create and edit their profiles and create posts. They can also see other user's profiles and posts.
 
 ## Packages Used
 * [node.js](https://nodejs.org/)
